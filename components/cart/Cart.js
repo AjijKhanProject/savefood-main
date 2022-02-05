@@ -8,19 +8,9 @@ const Cart = (props) => {
     const [date, setDate] = React.useState(props.data.NewDate.toDate());
     const [Month, setMonth] = React.useState("");
     const [DonateBy, setDonateBy] = React.useState('Sagor Alamat');
-    const [data, setData]= React.useState(null)
+    const data=props.data
 
     const window=Dimensions.get('window');
-    React.useEffect(() => {
-        if(props.data){
-            firestore().collection('UserInformation').where("Id", "==", props.data.Volunteer).get().then(doc => {
-                doc.forEach(user => {
-                   return setData(user.data())
-                })
-            })
-        }
-    })
-
     React.useState(() => {
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -92,7 +82,7 @@ const Cart = (props) => {
             <View style={styles.header}>
                 <Image
                     style={styles.profile}
-                    source={{ uri: data? data.Photo:'https://mobirise.com/bootstrap-template/profile-template/assets/images/timothy-paul-smith-256424-1200x800.jpg' }}
+                    source={{ uri: data.Photo? data.Photo:'https://mobirise.com/bootstrap-template/profile-template/assets/images/timothy-paul-smith-256424-1200x800.jpg' }}
                 />
                 <View style={styles.box1}>
                     <Text style={styles.headText}>{data?data.Name:'.........'}</Text>

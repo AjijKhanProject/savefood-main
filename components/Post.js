@@ -6,7 +6,9 @@ import { FAB } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign'
 import AnimatedLoader from "react-native-animated-loader";
 import model from './Styles/model'
+import auth from '@react-native-firebase/auth'
 import SplashScreen from 'react-native-splash-screen'
+import firestore from '@react-native-firebase/firestore'
 
 const Post = (props) => {
     const window = Dimensions.get('window');
@@ -15,26 +17,28 @@ const Post = (props) => {
     const [User, setUser] = React.useState(null);
 
 
-   /* auth().onAuthStateChanged((user) => {
-        if(user){
-          setUser(user);
-          navigation.navigate('Home',{email:user.email,uid:user.uid})
-        }
-      })*/
-      SplashScreen.hide();
     React.useEffect(() => {
-      /*  firestore().collection('Post').orderBy('NewDate', 'desc').get().then((data) => {
-            if (data) {
-                let arr = []
-                data.forEach((item) => {
-                    arr.push(item.data())
-                })
-                return setData(arr)
-            } else {
-                setData([])
+        auth().onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user);
+                navigation.navigate('Home', { email: user.email, uid: user.uid })
             }
-        })*/
-    })
+        })
+        SplashScreen.hide();
+    }, [])
+    React.useEffect(() => {
+         firestore().collection('Post').orderBy('NewDate', 'desc').get().then((data) => {
+              if (data) {
+                  let arr = []
+                  data.forEach((item) => {
+                      arr.push(item.data())
+                  })
+                  setData(arr)
+              } else {
+                  setData([])
+              }
+          })
+    },[])
     const styles = StyleSheet.create({
         view: {
             marginTop: 0,
@@ -62,7 +66,7 @@ const Post = (props) => {
 
     return (
         <SafeAreaView style={styles.view}>
-           <ScrollView>
+            <ScrollView>
                 {
                     data ? (
                         data.length > 0 ? (

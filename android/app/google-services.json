@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "489685099472",
+    "project_id": "savefood-79520",
+    "storage_bucket": "savefood-79520.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489685099472:android:eb9077abdf2cf65c6c4fd5",
+        "android_client_info": {
+          "package_name": "com.save_food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489685099472-ghibanimoujf2j0uliivbo6hm1ag6c7t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.save_food",
+            "certificate_hash": "b612adc5df5e6b68c11f680e56d4490d880bd489"
+          }
+        },
+        {
+          "client_id": "489685099472-cfgfkb8epcbrj0b1nhpo5idfvbuievmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjfHp-St9kua_-P26aTORe1Upj1_dZ1iI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489685099472-cfgfkb8epcbrj0b1nhpo5idfvbuievmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
