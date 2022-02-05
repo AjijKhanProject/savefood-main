@@ -4,7 +4,7 @@ import { Button, TextInput } from 'react-native-paper'
 import IconButton from './button/IconButton';
 import model from './Styles/model';
 import AnimatedLoader from 'react-native-animated-loader';
-
+import auth from '@react-native-firebase/auth'
 
 const Forget = () => {
     const [Email, setEmail] = React.useState(null);
@@ -22,6 +22,13 @@ const Forget = () => {
                     return
                 }
                 setLoader(true)
+                auth().sendPasswordResetEmail(Email).then(()=>{
+                    Alert.alert('Success','Please check your email address.')
+                    setLoader(false)
+                }).catch(err=>{
+                    Alert.alert(err.code,err.message)
+                    setLoader(false)
+                })
             }} />
             <AnimatedLoader
                 visible={loader}

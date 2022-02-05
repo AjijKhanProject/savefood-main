@@ -82,11 +82,11 @@ const Cart = (props) => {
             <View style={styles.header}>
                 <Image
                     style={styles.profile}
-                    source={{ uri: data.Photo? data.Photo:'https://mobirise.com/bootstrap-template/profile-template/assets/images/timothy-paul-smith-256424-1200x800.jpg' }}
+                    source={{ uri: data.user? data.user.Photo:'https://previews.123rf.com/images/urfandadashov/urfandadashov1808/urfandadashov180824282/109059479-loading-vector-icon-isolated-on-transparent-background-loading-logo-concept.jpg' }}
                 />
                 <View style={styles.box1}>
-                    <Text style={styles.headText}>{data?data.Name:'.........'}</Text>
-                    <Text style={styles.text}>{data?data.Address:'....'}</Text>
+                    <Text style={styles.headText}>{data.user?data.user.Name:'.........'}</Text>
+                    <Text style={styles.text}>{data.user?data.user.Address:'....'}</Text>
                 </View>
                 <View style={styles.box2}>
                     <Text style={styles.text}>{date}</Text>
@@ -94,16 +94,16 @@ const Cart = (props) => {
                 </View>
             </View>
             <View>
-                <Image style={styles.image} source={{ uri: props.data.Image}}/>
+                <Image style={styles.image} source={{ uri: props.data.Photo? props.data.Photo:'https://previews.123rf.com/images/urfandadashov/urfandadashov1808/urfandadashov180824282/109059479-loading-vector-icon-isolated-on-transparent-background-loading-logo-concept.jpg'}}/>
             </View>
             <View style={styles.header}>
                 <Image
                     style={styles.profile}
-                    source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSbu_GDWogoTWARzDSPmIjhqmJebhttu11eZeSjyRmTGgKOCj1GfoDF-Dxgch4kwSaGag&usqp=CAU' }}
+                    source={{ uri: data.doner? data.doner.Photo: 'https://previews.123rf.com/images/urfandadashov/urfandadashov1808/urfandadashov180824282/109059479-loading-vector-icon-isolated-on-transparent-background-loading-logo-concept.jpg' }}
                 />
                 <View style={styles.box1}>
                     <Text style={styles.headText}>Donate By</Text>
-                    <Text style={styles.text}>{props.data.Donar}</Text>
+                    <Text style={styles.text}>{data.doner?data.doner.Name:'..'}</Text>
                 </View>
             </View>
             </View>

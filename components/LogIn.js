@@ -3,9 +3,9 @@ import { View, Text, Dimensions, StyleSheet, TouchableOpacity,Alert } from 'reac
 import { TextInput, Button } from 'react-native-paper'
 import DropShadow from 'react-native-drop-shadow'
 import model from './Styles/model';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconButton from './button/IconButton';
 import AnimatedLoader from 'react-native-animated-loader'
+import auth from '@react-native-firebase/auth'
 
 const LogIn = (props) => {
     const [Email, setEmail] = React.useState();
@@ -27,22 +27,25 @@ const LogIn = (props) => {
                 <IconButton style={{
                     marginVertical:30,
                 }} label='Next' icon='skip-next' onPress={() =>{
-                    navigation.navigate('Home')
+                   // navigation.navigate('Home')
                     if(!Email || !Password){
                         Alert.alert('Wrong','Please fill all inputs')
                         return
                     }
                     setLoader(true)
-                    /*auth().signInWithEmailAndPassword(Email, Password).then(() => {
+                    auth().signInWithEmailAndPassword(Email, Password).then((userCredential) => {
                         //Alert.alert('Successful','Sign In Successfully')
                         setLoader(false)
-                        auth().onAuthStateChanged(user => {
-                            navigation.navigate('Home',{email:user.email,uid:user.uid})
-                        })
+                        //console.log(userCredential)
+                        const user=userCredential.user;
+                        navigation.navigate('Home',{email:user.email,uid:user.uid})
+                       // auth().onAuthStateChanged(user => {
+                            
+                       // })
                     }).catch(err=> {
                         Alert.alert('Error',err.message)
                         setLoader(false)
-                    })*/
+                    })
                 }}/>
 
                 <TouchableOpacity onPress={() => {

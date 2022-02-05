@@ -5,6 +5,8 @@ import DropShadow from 'react-native-drop-shadow'
 import model from './Styles/model';
 import IconButton from './button/IconButton';
 import AnimatedLoader from 'react-native-animated-loader'
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 
 const SignUp = (props) => {
     const [Name, setName] = React.useState(null);
@@ -16,10 +18,10 @@ const SignUp = (props) => {
     const [PasswordError, setPasswordError] = React.useState(false);
     const [User, setUser] = React.useState(null)
     const [Gender, setGender] = React.useState();
-    const [loader, setLoader]= React.useState(false);
+    const [loader, setLoader] = React.useState(false);
     const navigation = props.navigation;
 
-    /*const StoreData = (user) => {
+    const StoreData = (user) => {
         firestore().collection('UserInformation').doc(user.uid).set({
             Name: Name,
             Email: Email,
@@ -28,14 +30,14 @@ const SignUp = (props) => {
             Volunteer: false,
             Point: 0,
             Message: false,
-            Photo:'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
+            Photo: 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
             Id: user.uid
         }).then(() => {
-            props.navigation.navigate('Home',{email:Email,uid:user.uid})
+            props.navigation.navigate('Home', { email: Email, uid: user.uid })
         }).catch((error) => {
             Alert.alert('Error', error.message)
         })
-    }*/
+    }
 
     return (
         <DropShadow style={model.shadow}>
@@ -82,7 +84,7 @@ const SignUp = (props) => {
                         return;
                     }
                     setLoader(true);
-                   /* auth()
+                    auth()
                         .createUserWithEmailAndPassword(Email, Password)
                         .then((userCredential) => {
                             //console.log(userCredential.user)
@@ -102,7 +104,7 @@ const SignUp = (props) => {
 
                             Alert.alert('Error', error.message)
                             setLoader(false)
-                        });*/
+                        })
 
                 }} style={{ marginVertical: 30 }} label='Next' icon='skip-next' />
                 <Snackbar visible={User}>User account created & signed in!</Snackbar>

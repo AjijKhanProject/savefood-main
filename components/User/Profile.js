@@ -3,6 +3,9 @@ import { View, Text, ScrollView, Image, TextInput, TouchableOpacity, Alert } fro
 import IconButton from './../button/IconButton'
 import model from './../Styles/model';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import storage from '@react-native-firebase/storage'
 
 
 const Profile = (props) => {
@@ -47,7 +50,9 @@ const Profile = (props) => {
             <View style={[model.view2]}>
                 <View>
                     <Image style={model.profile} source={{ uri: Profile }} />
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity onPress={() => {
+                        //SaveImage()
+                    }}>
                         <Icon style={model.bage} name='camera' size={25} color='#F39C12' />
                     </TouchableOpacity>
                 </View>
@@ -108,6 +113,7 @@ const Profile = (props) => {
                     auth()
                         .signOut()
                         .then(() => console.log('User signed out!'));
+                        props.navigation.navigate('LogIn')
                 }} />
             </View>
         </ScrollView>
