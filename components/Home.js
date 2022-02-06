@@ -65,7 +65,7 @@ const Home = (props) => {
                 <Tab.Screen name="User Home" component={UserHome} options={({navigation})=>header({navigation})}/>
                 <Tab.Screen name="Profile" component={Profile} initialParams={{uid:params.uid}} options={({navigation})=>header({navigation})} />
                 <Tab.Screen name="Donate" component={Donate} initialParams={{
-                    user:UserInformation
+                    user:UserInformation,uid:params.uid
                 }}  options={({navigation})=>header({navigation})}/>
                 <Tab.Screen name="Volunteer" component={Volunteer} initialParams={{
                     user:UserInformation,uid:params.uid

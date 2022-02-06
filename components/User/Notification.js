@@ -28,7 +28,7 @@ const Notification = (props) => {
                 data?(
                     data.length> 0 ? (
                         data.map((d,i)=> (
-                            d.User.Id==uid?(
+                            d.Uid==uid?(
                                 <NotificationCart key={i} data={d}/>
                             ):(
                                 <View key={i}></View>

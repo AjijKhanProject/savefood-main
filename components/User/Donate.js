@@ -13,7 +13,16 @@ const Donate = (props) => {
     const [Item, setItem] = React.useState()
     const [loader,setLoader] = React.useState(false)
     const [snackbar, setSnackbar]= React.useState(false)
-    const params = props.route.params;
+    const [User,setUser]=React.useState(null)
+    const uid = props.route.params.uid;
+
+    React.useEffect(()=>{
+        firestore().collection('UserInformation').doc(uid).onSnapshot(doc=>{
+            if(doc){
+                setUser(doc.data())
+            }
+        })
+    },[])
     return (
         <View style={{
             width: '100%', height: '100%', justifyContent: 'center',
@@ -36,9 +45,9 @@ const Donate = (props) => {
                 firestore().collection('Donate').doc(uid).set({
                     NewDate: new Date(),
                     Type: 'donate',
-                    User:params.user,
+                    User:User,
                     Read: false,
-                    Message: params.user.Name+' wants send a packet items serially '
+                    Message: User.Name+' wants send a packet items serially '
                     +Item+' at '+Time+' from '+Address,
                     Id:uid
                 }).then(() => {

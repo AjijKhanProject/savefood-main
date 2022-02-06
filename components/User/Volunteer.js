@@ -98,7 +98,8 @@ const Volunteer = (props) => {
                 User:User,
                 Message: 'Your donation request is rejected by ' + User.Name,
                 NewDate: date,
-                Id: id
+                Id: id,
+                Uid:props.User.Id
             })
             batch.update(ref3, {
                 Read: true,
@@ -114,7 +115,7 @@ const Volunteer = (props) => {
         setVisible(true)
         const id = uuid.v4();
         const increment = app.firestore.FieldValue.increment(1);
-        const ref1 = firestore().collection('UserInformation').doc(User.Id)
+        const ref1 = firestore().collection('UserInformation').doc(props.User.Id)
         const ref2 = firestore().collection('Notification').doc(id)
         const ref3 = firestore().collection('Donate').doc(props.Id);
         if (props && props.Type === 'donate') {
@@ -127,7 +128,8 @@ const Volunteer = (props) => {
                 User:User,
                 Message: 'Your donation request is accepted by ' + User.Name,
                 NewDate:date,
-                Id: id
+                Id: id,
+                Uid:props.User.Id
             })
             batch.update(ref3, {
                 Read: true,
@@ -147,7 +149,8 @@ const Volunteer = (props) => {
                 User:User,
                 Message: 'Your volunteer request is rejected by ' + User.Name,
                 NewDate: date,
-                Id: id
+                Id: id,
+                Uid:props.User.Id
             })
             batch.update(ref3, {
                 Read: true,
