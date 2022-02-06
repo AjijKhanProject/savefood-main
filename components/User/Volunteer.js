@@ -8,6 +8,10 @@ import IconButton from './../button/IconButton'
 import AnimatedLoader from 'react-native-animated-loader'
 import uuid from 'react-native-uuid'
 import { TextInput } from 'react-native-paper'
+import firestore from '@react-native-firebase/firestore'
+import storage from '@react-native-firebase/storage'
+import { launchImageLibrary } from 'react-native-image-picker';
+import app from '@react-native-firebase/app'
 
 const Volunteer = (props) => {
     const params = props.route.params;
@@ -16,8 +20,14 @@ const Volunteer = (props) => {
     const [Profile, setProfile] = React.useState(null)
     const [visible, setVisible] = React.useState(false)
     const [date, setDate] = React.useState(new Date())
+    const [User,setUser]=React.useState(null)
+    const [text,setText]=React.useState('Loading...')
     React.useEffect(() => {
-        /*firestore().collection('Donate').orderBy('NewDate', 'desc').onSnapshot(data => {
+        firestore().collection('UserInformation').doc(params.uid).onSnapshot(doc=>{
+            setUser(doc.data())
+            setAdmin(doc.get('Volunteer'))
+        })
+        firestore().collection('Donate').orderBy('NewDate', 'desc').onSnapshot(data => {
             if (data) {
                 let arr = [];
                 data.forEach(doc => {
@@ -27,15 +37,14 @@ const Volunteer = (props) => {
             } else {
                 setNotifications([])
             }
-        })*/
-    })
+        })
+    },[])
 
     const SaveImage = (Name) => {
         if (!Name) {
             Alert.alert('Error', 'Add donar name first.')
             return
         }
-
         launchImageLibrary({
             mediaType: 'photo',
             quality: .5
@@ -58,14 +67,17 @@ const Volunteer = (props) => {
                 ref.putFile(response.assets[0].uri).then(() => {
                     ref.getDownloadURL().then(url => {
                         firestore().collection('Post').doc(id).set({
-                            Image: url,
-                            Volunteer: params.uid,
+                            Photo: url,
+                            User: User,
                             Donar: Name,
                             NewDate: new Date(),
                             Id: id
                         }).then(() => {
                             setVisible(false);
                             Alert.alert('Success', 'Your post has been successfully submitted')
+                        }).catch(error=>{
+                            Alert.alert(error.code,error.message)
+                            setVisible(false)
                         })
 
                     })
@@ -80,12 +92,13 @@ const Volunteer = (props) => {
         const ref2 = firestore().collection('Notification').doc(id)
         const ref3 = firestore().collection('Donate').doc(props.Id);
         if (props && props.Type) {
+            setVisible(true)
             const batch = firestore().batch();
             batch.set(ref2, {
-                Uid: props.Uid,
-                Message: 'Your donation request is rejected by ' + params.name,
+                User:User,
+                Message: 'Your donation request is rejected by ' + User.Name,
                 NewDate: date,
-                Id: params.uid
+                Id: id
             })
             batch.update(ref3, {
                 Read: true,
@@ -101,19 +114,20 @@ const Volunteer = (props) => {
         setVisible(true)
         const id = uuid.v4();
         const increment = app.firestore.FieldValue.increment(1);
-        const ref1 = firestore().collection('UserInformation').doc(props.Uid)
+        const ref1 = firestore().collection('UserInformation').doc(User.Id)
         const ref2 = firestore().collection('Notification').doc(id)
         const ref3 = firestore().collection('Donate').doc(props.Id);
         if (props && props.Type === 'donate') {
+            setVisible(true)
             const batch = firestore().batch();
             batch.update(ref1, {
                 Point: increment
             })
             batch.set(ref2, {
-                Uid: p.Uid,
-                Message: 'Your donation request is accepted by ' + params.name,
+                User:User,
+                Message: 'Your donation request is accepted by ' + User.Name,
                 NewDate:date,
-                Id: params.uid
+                Id: id
             })
             batch.update(ref3, {
                 Read: true,
@@ -124,15 +138,16 @@ const Volunteer = (props) => {
                 setVisible(false)
             })
         } else if (props && props.Type === 'request') {
+            setVisible(true)
             const batch = firestore().batch();
             batch.update(ref1, {
                 Volunteer: true,
             })
             batch.set(ref2, {
-                Uid: props.Uid,
-                Message: 'Your donation request is rejected by ' + params.name,
+                User:User,
+                Message: 'Your volunteer request is rejected by ' + User.Name,
                 NewDate: date,
-                Id: params.uid
+                Id: id
             })
             batch.update(ref3, {
                 Read: true,
@@ -147,17 +162,28 @@ const Volunteer = (props) => {
     if (!Admin) {
         return (
             <View style={model.view}>
-                <IconButton label="Request for Volunteer" icon='bike-fast' onPress={() => async () => {
+                <IconButton label="Request for Volunteer" icon='bike-fast' onPress={() => {
                     const id = uuid.v4();
-                    await firestore().collection('Donate').doc(id).set({
-                        Uid: params.uid,
-                        Message: params.name + ' is requested for volunteering.',
+                    if(!User){
+                        Alert.alert('Opps!','Please try again letter')
+                        return
+                    }
+                    setVisible(true)
+                    firestore().collection('Donate').doc(id).set({
+                        User:User,
+                        Message: User.Name + ' is requested for volunteering.',
                         Read: false,
                         NewDate: new Date(),
                         Type: 'request',
                         Id: id
+                    }).then(()=>{
+                        setVisible(false)
+                        Alert.alert('Success', 'Your request is now pending. Wait for response.')
+                    }).catch(error=>{
+                        setVisible(false)
+                        Alert.alert(error.code,error.message)
                     })
-                    Alert.alert('Success', 'Your request is now pending. Wait for response.')
+                    
                 }} />
             </View>
         );
@@ -196,7 +222,7 @@ const Volunteer = (props) => {
                     animationStyle={model.loader}
                     speed={1}
                 >
-                    <Text style={{ color: "black" }}>Uploading your post.....</Text>
+                    <Text style={{ color: "black" }}>{text}</Text>
                 </AnimatedLoader>
             </ScrollView>
         )

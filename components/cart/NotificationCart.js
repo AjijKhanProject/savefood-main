@@ -7,13 +7,10 @@ import model from './../Styles/model';
 
 const NotificationCart = (props) => {
     const [Admin, setAdmin] = React.useState(false);
-    const [data,setData] = React.useState(null);
+    const data=props.data
     const [Time, setTime]= React.useState(null);
     const [Date, setDate]= React.useState(null);
 
-    firestore().collection('UserInformation').doc(props.data.Id).onSnapshot(data=>{
-        return setData(data.data());
-    })
     React.useEffect(() => {
         if (props.data) {
             const date = props.data.NewDate.toDate();
@@ -29,19 +26,19 @@ const NotificationCart = (props) => {
             setDate(date.getDay() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear())
 
         }
-    })
+    },[])
     return (
         <DropShadow style={model.shadow}>
             <View style={model.cartView}>
                 <Avatar.Image style={{
                     margin: 5,
-                }} size={60} source={{ uri: data? data.Photo:'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}} />
+                }} size={60} source={{ uri: data? data.User.Photo:'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}} />
                 <View style={{
                     flex: 3,
                     justifyContent: 'center',
                     padding: 5
                 }}>
-                    <Text style={{ fontWeight: 'bold' }}>{data? data.Name:'.'}</Text>
+                    <Text style={{ fontWeight: 'bold' }}>{data? data.User.Name:'.'}</Text>
                     <Text>{props.data.Message}</Text>
                     {
                     Admin ? (

@@ -8,11 +8,11 @@ import SmallButton from '../button/SmallButton';
 
 const VolunteerCart = (props) => {
     const [visible, setVisible] = React.useState(false)
-    const [data, setData] = React.useState(null)
     const [Time, setTime] = React.useState(null)
     const [Date, setDate] = React.useState(null)
     const [modal, setModal] = React.useState(false)
     const [Read, setRead] = React.useState(props.data.Read)
+    const data=props.data;
 
     React.useEffect(() => {
        /* firestore().collection('UserInformation').where("Id", "==", props.uid).get().then(doc => {
@@ -44,7 +44,7 @@ const VolunteerCart = (props) => {
                 <TouchableOpacity onPress={() => setModal(!modal)}>
                     <Avatar.Image style={{
                         margin: 5,
-                    }} size={60} source={{ uri: data ? data.Photo : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
+                    }} size={60} source={{ uri: data ? data.User.Photo : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }} />
                 </TouchableOpacity>
                 <View style={{
                     justifyContent: 'center',
@@ -61,11 +61,11 @@ const VolunteerCart = (props) => {
                             <View style={{ flexDirection: 'row' }}>
                                 <SmallButton name='Accept' color='green' onPress={() => {
                                     setRead(true);
-                                    props.accept(props.data)
+                                    props.accept(data)
                                 }} />
                                 <SmallButton name='Reject' color='red' onPress={()=>{
                                     setRead(true)
-                                    props.reject(props.data)
+                                    props.reject(data)
                                 }} />
                             </View>
                         )

@@ -5,6 +5,7 @@ import model from './../Styles/model';
 import IconButton from './../button/IconButton'
 import AnimatedLoader from 'react-native-animated-loader'
 import uuid from 'react-native-uuid';
+import firestore from '@react-native-firebase/firestore'
 
 const Donate = (props) => {
     const [Address, setAddress] = React.useState()
@@ -35,18 +36,20 @@ const Donate = (props) => {
                 firestore().collection('Donate').doc(uid).set({
                     NewDate: new Date(),
                     Type: 'donate',
-                    Name: params.name,
-                    Uid: params.uid,
+                    User:params.user,
                     Read: false,
-                    Message: params.name+' wants send a packet items serially '
+                    Message: params.user.Name+' wants send a packet items serially '
                     +Item+' at '+Time+' from '+Address,
                     Id:uid
                 }).then(() => {
                     setLoader(false)
-                    setSnackbar(true)
+                   // setSnackbar(true)
                     setAddress('')
                     setTime('')
                     setItem('')
+                   Alert.alert('Success','Successfully send the request')
+                }).catch(err=>{
+                    Alert.alert(err.code,err.message)
                 })
             }} />
             <Snackbar visible={snackbar}>Save successful</Snackbar>

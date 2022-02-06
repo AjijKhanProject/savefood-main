@@ -82,11 +82,11 @@ const Cart = (props) => {
             <View style={styles.header}>
                 <Image
                     style={styles.profile}
-                    source={{ uri: data.user? data.user.Photo:'https://previews.123rf.com/images/urfandadashov/urfandadashov1808/urfandadashov180824282/109059479-loading-vector-icon-isolated-on-transparent-background-loading-logo-concept.jpg' }}
+                    source={{ uri: data.User? data.User.Photo:'https://previews.123rf.com/images/urfandadashov/urfandadashov1808/urfandadashov180824282/109059479-loading-vector-icon-isolated-on-transparent-background-loading-logo-concept.jpg' }}
                 />
                 <View style={styles.box1}>
-                    <Text style={styles.headText}>{data.user?data.user.Name:'.........'}</Text>
-                    <Text style={styles.text}>{data.user?data.user.Address:'....'}</Text>
+                    <Text style={styles.headText}>{data.User?data.User.Name:'.........'}</Text>
+                    <Text style={styles.text}>{data.User?data.User.Address:'....'}</Text>
                 </View>
                 <View style={styles.box2}>
                     <Text style={styles.text}>{date}</Text>
@@ -99,11 +99,11 @@ const Cart = (props) => {
             <View style={styles.header}>
                 <Image
                     style={styles.profile}
-                    source={{ uri: data.doner? data.doner.Photo: 'https://previews.123rf.com/images/urfandadashov/urfandadashov1808/urfandadashov180824282/109059479-loading-vector-icon-isolated-on-transparent-background-loading-logo-concept.jpg' }}
+                    source={{ uri:'https://www.jconnectseattle.org/wp-content/uploads/2020/11/food-drive-istock-scaled.jpg' }}
                 />
                 <View style={styles.box1}>
                     <Text style={styles.headText}>Donate By</Text>
-                    <Text style={styles.text}>{data.doner?data.doner.Name:'..'}</Text>
+                    <Text style={styles.text}>{data.Donar?data.Donar:'..'}</Text>
                 </View>
             </View>
             </View>

@@ -7,7 +7,7 @@ import Contact from './User/Contact'
 import UserHome from './User/UserHome'
 import Volunteer from './User/Volunteer'
 import {TouchableOpacity,StyleSheet,View} from 'react-native'
-
+import firestore from '@react-native-firebase/firestore'
 
 
 const Home = (props) => {
@@ -15,11 +15,27 @@ const Home = (props) => {
     const [UserInformation,setUserInformation]= React.useState(null)
     const params=props.route.params
     React.useEffect(()=>{
-       /* firestore().collection('UserInformation').doc(params.uid).onSnapshot(data=>{
+        firestore().collection('UserInformation').doc(params.uid).onSnapshot(data=>{
             setUserInformation(data.data())
-        })*/
+        })
+    },[])
+    const header=({navigation})=>({
+        headerLeft: () => (
+            <TouchableOpacity style={{marginHorizontal:10}} onPress={() =>{
+                navigation.navigate('Rank List',{uid:params.uid})
+            }}>
+                <Ionicons name="ios-trophy" size={30} color="#F39C12" />
+            </TouchableOpacity>
+        ),
+        headerRight: () => (
+            <TouchableOpacity style={{marginHorizontal:10}} onPress={() =>{
+                navigation.navigate('Notification',{uid:params.uid})
+            }}>
+                <Ionicons style={{ marginLeft: 80 }} name="md-notifications" size={30} color="#F39C12" />
+            </TouchableOpacity>
+        ),
+        headerTitleAlign:'center',
     })
-
         return (
             <Tab.Navigator screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
@@ -47,29 +63,16 @@ const Home = (props) => {
                 tabBarInactiveTintColor: 'gray',
             })} >
                 <Tab.Screen name="User Home" component={UserHome} options={({navigation})=>header({navigation})}/>
-                <Tab.Screen name="Profile" component={Profile}  options={({navigation})=>header({navigation})} />
-                <Tab.Screen name="Donate" component={Donate}  options={({navigation})=>header({navigation})}/>
-                <Tab.Screen name="Volunteer" component={Volunteer}  options={({navigation})=>header({navigation})}/>
+                <Tab.Screen name="Profile" component={Profile} initialParams={{uid:params.uid}} options={({navigation})=>header({navigation})} />
+                <Tab.Screen name="Donate" component={Donate} initialParams={{
+                    user:UserInformation
+                }}  options={({navigation})=>header({navigation})}/>
+                <Tab.Screen name="Volunteer" component={Volunteer} initialParams={{
+                    user:UserInformation,uid:params.uid
+                }}  options={({navigation})=>header({navigation})}/>
                 <Tab.Screen name="Contact" component={Contact}  options={({navigation})=>header({navigation})}/>
             </Tab.Navigator>
         );
 };
 
 export default Home;
-const header=({navigation})=>({
-    headerLeft: () => (
-        <TouchableOpacity style={{marginHorizontal:10}} onPress={() =>{
-            navigation.navigate('Rank List')
-        }}>
-            <Ionicons name="ios-trophy" size={30} color="#F39C12" />
-        </TouchableOpacity>
-    ),
-    headerRight: () => (
-        <TouchableOpacity style={{marginHorizontal:10}} onPress={() =>{
-            navigation.navigate('Notification')
-        }}>
-            <Ionicons style={{ marginLeft: 80 }} name="md-notifications" size={30} color="#F39C12" />
-        </TouchableOpacity>
-    ),
-    headerTitleAlign:'center',
-})

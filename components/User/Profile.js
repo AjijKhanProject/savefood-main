@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
+import AnimatedLoader from 'react-native-animated-loader';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 
 const Profile = (props) => {
@@ -17,8 +19,22 @@ const Profile = (props) => {
     const [EditPhone, setEditPhone] = React.useState(false)
     const [Address, setAddress] = React.useState('any')
     const [EditAddress, setEditAddress] = React.useState(false)
+    const [loader,setLoader]=React.useState(false)
+    const [text,setText]=React.useState('')
+    const uid=props.route.params.uid
+    const [button,setButton]=React.useState(false)
     const [Profile, setProfile] = React.useState('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg')
-    
+
+
+    React.useEffect(()=>{
+        firestore().collection('UserInformation').doc(uid).onSnapshot(doc=>{
+            setName(doc.get('Name'))
+            setPhone(doc.get('Phone'))
+            setAddress(doc.get('Address'))
+            setEmail(doc.get('Email'))
+        })
+    },[])
+
     const SaveImage = () => {
         launchImageLibrary({
             mediaType: 'photo',
@@ -32,14 +48,26 @@ const Profile = (props) => {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 //const source = { uri: response.uri };
-                setProfile(response.assets[0].uri)
+                setLoader(true)
                 const ref = storage().ref('images/' + response.assets[0].fileName);
-                ref.putFile(response.assets[0].uri).then(() => {
-                    ref.getDownloadURL().then(url => {
-                       /* firestore().collection('UserInformation').doc(params.uid).update({
-                            Photo: url
-                        })*/
-
+                const filePath = ref.putFile(response.assets[0].uri);
+                filePath.on('state_changed', snapshot => {
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setText('Upload is ' + progress + '% done');
+                },error=>{
+                    Alert.alert(error.code,error.message)
+                    setLoader(false)
+                },()=>{
+                    filePath.snapshot.ref.getDownloadURL().then(url=>{
+                        setProfile(url)
+                        firestore().collection('UserInformation').doc(uid).update({
+                            Photo:url
+                        }).then(()=>{
+                            setLoader(false)
+                        }).catch(error=>{
+                            setLoader(false)
+                            Alert.alert(error.code,error.message)
+                        })
                     })
                 })
             }
@@ -51,7 +79,7 @@ const Profile = (props) => {
                 <View>
                     <Image style={model.profile} source={{ uri: Profile }} />
                     <TouchableOpacity onPress={() => {
-                        //SaveImage()
+                        SaveImage()
                     }}>
                         <Icon style={model.bage} name='camera' size={25} color='#F39C12' />
                     </TouchableOpacity>
@@ -61,7 +89,10 @@ const Profile = (props) => {
                         fontSize: 18, fontWeight: '800',
                         borderBottomWidth: EditName ? 1 : 0
                     }]}
-                        value={Name} onChangeText={(val) => setName(val)} />
+                        value={Name} onChangeText={(val) => {
+                            setName(val)
+                            setButton(false)
+                            }} />
                     <Icon style={{ margin: 5 }} name='account-edit-outline' size={25} color='black' onPress={() => {
                         setEditName(!EditName)
                     }} />
@@ -71,7 +102,10 @@ const Profile = (props) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontWeight: 'bold' }}>Email: </Text>
                         <TextInput editable={EditEmail} style={[model.Input, { borderBottomWidth: EditEmail ? 1 : 0 }]}
-                            value={Email} onChangeText={(val) => setEmail(val)} />
+                            value={Email} onChangeText={(val) => {
+                                setEmail(val)
+                                setButton(false)
+                                }} />
                         <Icon style={{ margin: 5 }} name='account-edit-outline' size={25} color='black' onPress={() => {
                             setEditEmail(!EditEmail)
                         }} />
@@ -79,7 +113,10 @@ const Profile = (props) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontWeight: 'bold' }}>Phone: </Text>
                         <TextInput editable={EditPhone} style={[model.Input, { borderBottomWidth: EditPhone ? 1 : 0 }]}
-                            value={Phone} onChangeText={(val) => setPhone(val)} />
+                            value={Phone} onChangeText={(val) => {
+                                setPhone(val)
+                                setButton(false)
+                                }} />
                         <Icon style={{ marginLeft: 5 }} name='account-edit-outline' size={25} color='black' onPress={() => {
                             setEditPhone(!EditPhone)
                         }} />
@@ -87,13 +124,16 @@ const Profile = (props) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ fontWeight: 'bold' }}>Address: </Text>
                         <TextInput editable={EditAddress} style={[model.Input, { borderBottomWidth: EditAddress ? 1 : 0 }]}
-                            value={Address} onChangeText={(val) => setAddress(val)} />
+                            value={Address} onChangeText={(val) => {
+                                setAddress(val)
+                                setButton(false)
+                                }} />
                         <Icon style={{ marginLeft: 5 }} name='account-edit-outline' size={25} color='black' onPress={() => {
                             setEditAddress(!EditAddress)
                         }} />
                     </View>
                 </View>
-                <IconButton label='SAVE' icon='content-save' onPress={() => async ()=>{
+                <IconButton disabled={button} label='SAVE' icon='content-save' onPress={() => {
                     if (!Name || !Address || !Phone || !Email) {
                         Alert.alert('Error', 'Please fill all fields')
                         return;
@@ -102,20 +142,37 @@ const Profile = (props) => {
                     setEditPhone(false)
                     setEditEmail(false)
                     setEditAddress(false)
-                   await firestore().collection('UserInformation').doc(params.uid).update({
+                    setText('Saving....')
+                    setLoader(true)
+                    firestore().collection('UserInformation').doc(uid).update({
                         Name: Name,
                         Email: Email,
                         Phone: Phone,
                         Address: Address,
+                    }).then(()=>{
+                        setButton(true)
+                        setLoader(false)
+                    }).catch(error=>{
+                        Alert.alert(error.code,error.message)
+                        setLoader(false)
                     })
                 }} />
                 <IconButton label="LOG OUT" icon="logout" onPress={() => {
                     auth()
                         .signOut()
                         .then(() => console.log('User signed out!'));
-                        props.navigation.navigate('LogIn')
+                    props.navigation.navigate('LogIn')
                 }} />
             </View>
+            <AnimatedLoader
+                visible={loader}
+                overlayColor="rgba(255, 255, 255, 0.459)"
+                source={require("../Files/88967-food-delivery-service.json")}
+                animationStyle={model.loader}
+                speed={1}
+            >
+                <Text style={{ color: "black" }}>{text}</Text>
+            </AnimatedLoader>
         </ScrollView>
     );
 };

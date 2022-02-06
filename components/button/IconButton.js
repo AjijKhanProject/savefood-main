@@ -4,9 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const IconButton = (props) => {
     return (
-        <TouchableOpacity onPress={props.onPress} style={[
+        <TouchableOpacity disabled={props.disabled?props.disabled:false} onPress={props.onPress} style={[
             {
-            backgroundColor:'#DC7633',
+            backgroundColor:props.disabled?'rgb(88, 86, 86)':'#DC7633',
             minWidth:120,
             minHeight:40,
             borderRadius:20,

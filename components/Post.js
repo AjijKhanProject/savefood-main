@@ -27,7 +27,7 @@ const Post = (props) => {
         SplashScreen.hide();
     }, [])
     React.useEffect(() => {
-         firestore().collection('Post').orderBy('NewDate', 'desc').get().then((data) => {
+         firestore().collection('Post').orderBy('NewDate', 'desc').onSnapshot((data) => {
               if (data) {
                   let arr = []
                   data.forEach((item) => {
