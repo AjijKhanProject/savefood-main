@@ -32,6 +32,7 @@ const Profile = (props) => {
             setPhone(doc.get('Phone'))
             setAddress(doc.get('Address'))
             setEmail(doc.get('Email'))
+            setProfile(doc.get('Photo'))
         })
     },[])
 
