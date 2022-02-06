@@ -13,6 +13,7 @@ import Post from './components/Post'
 import { Avatar } from 'react-native-paper'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+LogBox.ignoreAllLogs()
 
 
 const Stack = createNativeStackNavigator();
