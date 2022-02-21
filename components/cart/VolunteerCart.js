@@ -14,13 +14,7 @@ const VolunteerCart = (props) => {
     const [Read, setRead] = React.useState(props.data.Read)
     const data=props.data;
 
-    React.useEffect(() => {
-       /* firestore().collection('UserInformation').where("Id", "==", props.uid).get().then(doc => {
-            doc.forEach(user => {
-                return setData(user.data())
-            })
-        })*/
-    }, [])
+    
     React.useEffect(() => {
         if (props.data) {
             const date = props.data.NewDate.toDate();
@@ -52,7 +46,7 @@ const VolunteerCart = (props) => {
                 }}>
                     <Text style={{
                         fontWeight: 'bold'
-                    }}>{data ? data.Name : ''}</Text>
+                    }}>{data ? data.User.Name : ''}</Text>
                     <Text>{props.data ? props.data.Message : ''}</Text>
                     {
                         Read ? (
@@ -78,7 +72,13 @@ const VolunteerCart = (props) => {
             </View>
             <Modal visible={modal} animationType='fade'
                 onRequestClose={() => setModal(!modal)}>
-                <Profile data={data} />
+                {
+                    data.User?(
+                        <Profile data={data.User} />
+                    ):(
+                        <View></View>
+                    )
+                }
             </Modal>
         </DropShadow>
     );
