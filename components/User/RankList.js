@@ -2,6 +2,7 @@ import React from 'react';
 import {View,Text,ScrollView} from 'react-native'
 import RankCart from '../cart/RankCart';
 import firestore from '@react-native-firebase/firestore'
+import Volunteer from './Volunteer';
 
 const RankList = () => {
     const [Users,setUsers]=React.useState([])
@@ -10,7 +11,9 @@ const RankList = () => {
             if(doc){
                 let arr=[]
                 doc.forEach(user=>{
-                    arr.push(user.data())
+                    if(user.get('Volunteer')){
+                        arr.push(user.data())
+                    }
                 })
                 setUsers(arr)
             }

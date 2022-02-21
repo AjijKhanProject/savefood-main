@@ -42,10 +42,10 @@ const SignUp = (props) => {
     return (
         <DropShadow style={model.shadow}>
             <View style={model.view}>
-                <TextInput style={model.input} placeholder="Name.................."
+                <TextInput style={model.input} placeholder="Name"
                     value={Name} onChangeText={(val) => setName(val)}
                     mode="flat" />
-                <TextInput error={EmailError} style={model.input} placeholder="E-mail................"
+                <TextInput error={EmailError} style={model.input} placeholder="E-mail"
                     value={Email} onChangeText={(val) => {
                         setEmail(val)
                         if (((val >= 'a' && val <= 'z') || val == '.' || val == '-' || val == '_' || val == '@')) {
@@ -57,14 +57,14 @@ const SignUp = (props) => {
                     }}
                     mode="flat" />
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <TextInput style={model.input} placeholder="Phone................"
+                    <TextInput style={model.input} placeholder="Phone"
                         value={Phone} onChangeText={(val) => setPhone(val)}
                         mode="flat" />
                 </View>
-                <TextInput style={model.input} placeholder="Address................"
+                <TextInput style={model.input} placeholder="Address"
                     value={Address} onChangeText={(val) => setAddress(val)}
                     mode="flat" />
-                <TextInput error={PasswordError} style={model.input} placeholder="Password................"
+                <TextInput error={PasswordError} style={model.input} placeholder="Password"
                     value={Password} onChangeText={(val) => {
                         setPassword(val)
                         if (val.length < 6) {

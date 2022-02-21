@@ -13,7 +13,7 @@ const Forget = () => {
     return (
         <View style={model.view}>
             <Text style={model.headerText}>A link will sent to you via email</Text>
-            <TextInput style={model.input} placeholder="Email................"
+            <TextInput style={model.input} placeholder="Email"
                 value={Email} onChangeText={setEmail}
                 mode="flat" />
             <IconButton style={{ marginVertical: 30 }} icon='skip-next' label='Send' onPress={() => {

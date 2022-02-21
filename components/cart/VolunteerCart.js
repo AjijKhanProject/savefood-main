@@ -85,6 +85,8 @@ const VolunteerCart = (props) => {
 };
 
 export default VolunteerCart;
+//for showing user profile who are request for donate some thing.go to volunteer-> 
+//click on the image just 
 const Profile = ({ data }) => {
     return (
         <View style={{

@@ -20,10 +20,12 @@ const Volunteer = (props) => {
     const [Profile, setProfile] = React.useState(null)
     const [visible, setVisible] = React.useState(false)
     const [date, setDate] = React.useState(new Date())
-    const [User,setUser]=React.useState(null)
-    const [text,setText]=React.useState('Loading...')
+    const [User, setUser] = React.useState(null)
+    const [text, setText] = React.useState('Loading...')
+
+    //fetching information from the server
     React.useEffect(() => {
-        firestore().collection('UserInformation').doc(params.uid).onSnapshot(doc=>{
+        firestore().collection('UserInformation').doc(params.uid).onSnapshot(doc => {
             setUser(doc.data())
             setAdmin(doc.get('Volunteer'))
         })
@@ -38,13 +40,16 @@ const Volunteer = (props) => {
                 setNotifications([])
             }
         })
-    },[])
+    }, [])
 
+
+    //code for uploading post image and increment volunteer point
     const SaveImage = (Name) => {
-        if (!Name) {
-            Alert.alert('Error', 'Add donar name first.')
+        if (!Name && !User) {
+            Alert.alert('Error', 'Add donar name first and login info.')
             return
         }
+
         launchImageLibrary({
             mediaType: 'photo',
             quality: .5
@@ -66,6 +71,7 @@ const Volunteer = (props) => {
                 const ref = storage().ref('posts/' + response.assets[0].fileName);
                 ref.putFile(response.assets[0].uri).then(() => {
                     ref.getDownloadURL().then(url => {
+                        //adding post
                         firestore().collection('Post').doc(id).set({
                             Photo: url,
                             User: User,
@@ -73,10 +79,20 @@ const Volunteer = (props) => {
                             NewDate: new Date(),
                             Id: id
                         }).then(() => {
-                            setVisible(false);
-                            Alert.alert('Success', 'Your post has been successfully submitted')
-                        }).catch(error=>{
-                            Alert.alert(error.code,error.message)
+                            //increment point
+                            const increment = app.firestore.FieldValue.increment(1);
+                            firestore().collection('UserInformation').doc(User.Id)
+                            .update({
+                                Point: increment
+                            }).then(() => {
+                                setVisible(false);
+                                Alert.alert('Success', 'Your post has been successfully submitted')
+                            }).catch(err => {
+                                setVisible(false);
+                                Alert.alert(err.code, err.message)
+                            })
+                        }).catch(error => {
+                            Alert.alert(error.code, error.message)
                             setVisible(false)
                         })
 
@@ -85,21 +101,31 @@ const Volunteer = (props) => {
             }
         })
     }
+
+    //call for rejected button
     const Reject = (props) => {
         setVisible(true)
         //setRead(true);
         const id = uuid.v4();
+        //additional reference of firestore
         const ref2 = firestore().collection('Notification').doc(id)
         const ref3 = firestore().collection('Donate').doc(props.Id);
         if (props && props.Type) {
+            let message = '';
+            if (props.Type === 'request') {
+                message = 'volunteer request'
+            } else {
+                message = 'donation request'
+            }
             setVisible(true)
             const batch = firestore().batch();
+            //batch for commit multiple function
             batch.set(ref2, {
-                User:User,
-                Message: 'Your donation request is rejected by ' + User.Name,
+                User: User,
+                Message: 'Your ' + message + ' is rejected by ' + User.Name,
                 NewDate: date,
                 Id: id,
-                Uid:props.User.Id
+                Uid: props.User.Id
             })
             batch.update(ref3, {
                 Read: true,
@@ -114,22 +140,18 @@ const Volunteer = (props) => {
     const Accept = (props) => {
         setVisible(true)
         const id = uuid.v4();
-        const increment = app.firestore.FieldValue.increment(1);
         const ref1 = firestore().collection('UserInformation').doc(props.User.Id)
         const ref2 = firestore().collection('Notification').doc(id)
         const ref3 = firestore().collection('Donate').doc(props.Id);
         if (props && props.Type === 'donate') {
             setVisible(true)
             const batch = firestore().batch();
-            batch.update(ref1, {
-                Point: increment
-            })
             batch.set(ref2, {
-                User:User,
+                User: User,
                 Message: 'Your donation request is accepted by ' + User.Name,
-                NewDate:date,
+                NewDate: date,
                 Id: id,
-                Uid:props.User.Id
+                Uid: props.User.Id
             })
             batch.update(ref3, {
                 Read: true,
@@ -146,18 +168,18 @@ const Volunteer = (props) => {
                 Volunteer: true,
             })
             batch.set(ref2, {
-                User:User,
-                Message: 'Your volunteer request is rejected by ' + User.Name,
+                User: User,
+                Message: 'Your volunteer request is accepted by ' + User.Name,
                 NewDate: date,
                 Id: id,
-                Uid:props.User.Id
+                Uid: props.User.Id
             })
             batch.update(ref3, {
                 Read: true,
             })
-            batch.commit().then(() =>{
+            batch.commit().then(() => {
                 setVisible(false)
-            }).catch(err =>{
+            }).catch(err => {
                 setVisible(false)
             })
         }
@@ -167,26 +189,26 @@ const Volunteer = (props) => {
             <View style={model.view}>
                 <IconButton label="Request for Volunteer" icon='bike-fast' onPress={() => {
                     const id = uuid.v4();
-                    if(!User){
-                        Alert.alert('Opps!','Please try again letter')
+                    if (!User) {
+                        Alert.alert('Opps!', 'Please try again letter')
                         return
                     }
                     setVisible(true)
                     firestore().collection('Donate').doc(id).set({
-                        User:User,
+                        User: User,
                         Message: User.Name + ' is requested for volunteering.',
                         Read: false,
                         NewDate: new Date(),
                         Type: 'request',
                         Id: id
-                    }).then(()=>{
+                    }).then(() => {
                         setVisible(false)
                         Alert.alert('Success', 'Your request is now pending. Wait for response.')
-                    }).catch(error=>{
+                    }).catch(error => {
                         setVisible(false)
-                        Alert.alert(error.code,error.message)
+                        Alert.alert(error.code, error.message)
                     })
-                    
+
                 }} />
             </View>
         );
@@ -199,8 +221,8 @@ const Volunteer = (props) => {
                         Notifications.length > 0 ? (
                             Notifications.map((doc) => (
                                 <VolunteerCart key={doc.NewDate} navigation={props.navigation} data={doc}
-                                    uid={params.uid} name={params.name} date={date} reject={(val)=>Reject(val)} 
-                                    accept={(val)=>Accept(val)}
+                                    uid={params.uid} name={params.name} date={date} reject={(val) => Reject(val)}
+                                    accept={(val) => Accept(val)}
                                 />
                             ))
                         ) : (

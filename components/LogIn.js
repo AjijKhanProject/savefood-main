@@ -17,10 +17,10 @@ const LogIn = (props) => {
     return (
         <DropShadow style={model.shadow}>
             <View style={model.view}>
-                <TextInput style={model.input} placeholder="E-mail................"
+                <TextInput style={model.input} placeholder="E-mail"
                     value={Email} onChangeText={(val) => setEmail(val)}
                     mode="flat" />
-                <TextInput style={model.input} placeholder="Password................"
+                <TextInput style={model.input} placeholder="Password"
                     value={Password} onChangeText={(val) => setPassword(val)}
                     mode="flat" secureTextEntry />
 

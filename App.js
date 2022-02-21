@@ -11,8 +11,8 @@ import RankList from './components/User/RankList'
 import Notification from './components/User/Notification'
 import Post from './components/Post'
 import { Avatar } from 'react-native-paper'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 LogBox.ignoreAllLogs()
 
 
@@ -43,7 +43,6 @@ const App = () => {
                 <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
                 <Stack.Screen name="Forget" component={Forget} options={{ headerShown: false }} />
                 <Stack.Screen name="Rank List" component={RankList}/>
-                <Stack.Screen name="User Profile" component={Profile}/>
                 <Stack.Screen name="Notification" component={Notification}/>
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             </Stack.Navigator>
@@ -53,28 +52,4 @@ const App = () => {
 }
 
 export default App;
-
-const Profile = (props) => {
-  const data = props.route.params;
-  return (
-      <View style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-      }}>
-          <Avatar.Image style={{
-              margin: 5,
-          }} size={130} source={require('./components/Files/profile.jpeg')} />
-          <Text style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              margin: 5,
-              marginBottom: 15
-          }}>{data.Name}</Text>
-          <View>
-              <Text>{data.Phone}</Text>
-              <Text>{data.Email}</Text>
-              <Text>{data.Address}</Text>
-          </View>
-      </View>
-  )
-}
+ 
