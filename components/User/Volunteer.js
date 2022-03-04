@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert,DevSettings } from 'react-native';
 import model from './../Styles/model';
 import VolunteerCart from './../cart/VolunteerCart'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -40,7 +40,7 @@ const Volunteer = (props) => {
                 setNotifications([])
             }
         })
-    }, [])
+    }, [Admin])
 
 
     //code for uploading post image and increment volunteer point
@@ -132,6 +132,7 @@ const Volunteer = (props) => {
             })
             batch.commit().then(() => {
                 setVisible(false)
+                DevSettings.reload()
             }).catch(err => {
                 setVisible(false)
             })
@@ -158,6 +159,7 @@ const Volunteer = (props) => {
             })
             batch.commit().then(() => {
                 setVisible(false)
+                DevSettings.reload()
             }).catch(err => {
                 setVisible(false)
             })
@@ -179,6 +181,7 @@ const Volunteer = (props) => {
             })
             batch.commit().then(() => {
                 setVisible(false)
+                DevSettings.reload()
             }).catch(err => {
                 setVisible(false)
             })

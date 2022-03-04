@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, ScrollView, Image, TextInput, TouchableOpacity, Alert,DevSettings } from 'react-native'
 import IconButton from './../button/IconButton'
 import model from './../Styles/model';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -161,8 +161,10 @@ const Profile = (props) => {
                 <IconButton label="LOG OUT" icon="logout" onPress={() => {
                     auth()
                         .signOut()
-                        .then(() => console.log('User signed out!'));
-                    props.navigation.navigate('LogIn')
+                        .then(() => {
+                            DevSettings.reload()
+                            props.navigation.navigate('LogIn')
+                        });
                 }} />
             </View>
             <AnimatedLoader

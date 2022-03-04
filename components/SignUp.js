@@ -22,9 +22,10 @@ const SignUp = (props) => {
     const navigation = props.navigation;
 
     const StoreData = (user) => {
+        let email=Email.toLowerCase();
         firestore().collection('UserInformation').doc(user.uid).set({
             Name: Name,
-            Email: Email,
+            Email: email,
             Address: Address,
             Phone: Phone,
             Volunteer: false,
@@ -48,7 +49,7 @@ const SignUp = (props) => {
                 <TextInput error={EmailError} style={model.input} placeholder="E-mail"
                     value={Email} onChangeText={(val) => {
                         setEmail(val)
-                        if (((val >= 'a' && val <= 'z') || val == '.' || val == '-' || val == '_' || val == '@')) {
+                        if (((val >= 'a' && val <= 'z') || val == '.' || val == '-' || val == '_' || val == '@' || (val >='A' && val<='Z'))) {
                             setEmailError(false)
 
                         } else {

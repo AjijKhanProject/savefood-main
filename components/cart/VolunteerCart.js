@@ -30,7 +30,7 @@ const VolunteerCart = (props) => {
             setDate(date.getDay() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear())
 
         }
-    })
+    },[data])
     
     return (
         <DropShadow style={model.shadow}>
