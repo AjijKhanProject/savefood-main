@@ -62,7 +62,7 @@ const model = StyleSheet.create({
     color: 'black',
     marginLeft: 5,
     fontSize: 15,
-    borderColor: '#F39C12',
+    borderColor: '#FB6127',
     height: 40,
   },
   cartView: {

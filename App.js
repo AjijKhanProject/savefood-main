@@ -29,6 +29,8 @@ const App = () => {
     mode: 'exact',
   };
 
+  //Primary color #FB6127
+
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>

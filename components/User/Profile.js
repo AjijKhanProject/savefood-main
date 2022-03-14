@@ -131,7 +131,7 @@ const Profile = props => {
           />
           <Icon
             style={{margin: 5}}
-            name="account-edit-outline"
+            name="file-document-edit"
             size={25}
             color="black"
             onPress={() => {
@@ -154,7 +154,7 @@ const Profile = props => {
             />
             <Icon
               style={{margin: 5}}
-              name="account-edit-outline"
+              name="file-document-edit"
               size={25}
               color="black"
               onPress={() => {
@@ -175,7 +175,7 @@ const Profile = props => {
             />
             <Icon
               style={{marginLeft: 5}}
-              name="account-edit-outline"
+              name="file-document-edit"
               size={25}
               color="black"
               onPress={() => {
@@ -196,7 +196,7 @@ const Profile = props => {
             />
             <Icon
               style={{marginLeft: 5}}
-              name="account-edit-outline"
+              name="file-document-edit"
               size={25}
               color="black"
               onPress={() => {

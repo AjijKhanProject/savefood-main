@@ -63,10 +63,10 @@ const Post = props => {
       bottom: 10,
       width: 140,
       height: 40,
-      backgroundColor: '#F39C12',
+      backgroundColor: '#FB6127',
       justifyContent: 'center',
       alignItems: 'center',
-      color: '#FFFFFF',
+      color: '#FFF',
     },
   });
 
