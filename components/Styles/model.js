@@ -6,7 +6,7 @@ const model = StyleSheet.create({
     minWidth: window.width - 10,
     minHeight: window.height - 10,
     margin: 5,
-    backgroundColor: 'red',
+    backgroundColor: '#FFF',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',

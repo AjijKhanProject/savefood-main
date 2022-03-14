@@ -28,7 +28,7 @@ const Home = props => {
         onPress={() => {
           navigation.navigate('Rank List', {uid: params.uid});
         }}>
-        <Ionicons name="trophy-sharp" size={35} color="#F39C12" />
+        <Ionicons name="trophy-sharp" size={35} color="#FB6127" />
       </TouchableOpacity>
     ),
     headerRight: () => (
@@ -41,7 +41,7 @@ const Home = props => {
           style={{marginLeft: 80}}
           name="notifications-sharp"
           size={35}
-          color="#F39C12"
+          color="#FB6127"
         />
       </TouchableOpacity>
     ),
@@ -70,7 +70,7 @@ const Home = props => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#F39C12',
+        tabBarActiveTintColor: '#FB6127',
         tabBarInactiveTintColor: 'gray',
       })}>
       <Tab.Screen
