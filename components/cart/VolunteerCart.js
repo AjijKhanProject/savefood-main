@@ -81,7 +81,7 @@ const VolunteerCart = props => {
             <View style={{flexDirection: 'row'}}>
               <SmallButton
                 name="Accept"
-                color="green"
+                color="#FB6127"
                 onPress={() => {
                   setRead(true);
                   props.accept(data);
@@ -89,7 +89,7 @@ const VolunteerCart = props => {
               />
               <SmallButton
                 name="Reject"
-                color="red"
+                color="black"
                 onPress={() => {
                   setRead(true);
                   props.reject(data);

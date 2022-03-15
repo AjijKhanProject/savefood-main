@@ -75,12 +75,12 @@ const NotificationCart = props => {
               }}>
               <SmallButton
                 name="Accept"
-                color="green"
+                color="#FB6127"
                 onPress={() => Alert.alert('ok')}
               />
               <SmallButton
                 name="Reject"
-                color="red"
+                color="black"
                 onPress={() => Alert.alert('ok')}
               />
             </View>
