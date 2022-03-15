@@ -10,7 +10,7 @@ const IconButton = props => {
       style={[
         {
           backgroundColor: props.disabled ? 'rgb(88, 86, 86)' : '#FB6127',
-          minWidth: 120,
+          minWidth: 250,
           minHeight: 40,
           borderRadius: 20,
           margin: 10,

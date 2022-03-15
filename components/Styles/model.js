@@ -18,6 +18,22 @@ const model = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  viewLogin: {
+    minWidth: window.width - 10,
+    minHeight: window.height - 10,
+    margin: 5,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    alignItems: 'center',
+  },
+  viewReg: {
+    minWidth: window.width - 10,
+    minHeight: window.height - 10,
+    margin: 5,
+    backgroundColor: '#FFF',
+    borderRadius: 30,
+    alignItems: 'center',
+  },
   shadow: {
     shadowColor: '#000',
     shadowOffset: {
@@ -41,7 +57,7 @@ const model = StyleSheet.create({
   headerText: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#DC7633',
+    color: 'black',
     opacity: 0.8,
     margin: 5,
   },
