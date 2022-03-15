@@ -54,24 +54,22 @@ const Home = props => {
           let iconName;
 
           if (route.name === 'User Home') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = focused ? 'home' : 'home';
           } else if (route.name === 'Profile') {
-            iconName = focused
-              ? 'person-circle-sharp'
-              : 'person-circle-outline';
+            iconName = focused ? 'person-circle-sharp' : 'person-circle-sharp';
           } else if (route.name === 'Donate') {
-            iconName = focused ? 'pizza' : 'pizza-outline';
+            iconName = focused ? 'pizza' : 'pizza';
           } else if (route.name === 'Volunteer') {
-            iconName = focused ? 'walk-outline' : 'walk-sharp';
+            iconName = focused ? 'walk-sharp' : 'walk-sharp';
           } else if (route.name === 'Contact') {
-            iconName = focused ? 'ios-call' : 'ios-call-outline';
+            iconName = focused ? 'call-sharp' : 'call-sharp';
           }
 
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#FB6127',
-        tabBarInactiveTintColor: 'gray',
+        tabBarInactiveTintColor: 'black',
       })}>
       <Tab.Screen
         name="User Home"

@@ -12,6 +12,7 @@ const model = StyleSheet.create({
     alignItems: 'center',
   },
   view2: {
+    backgroundColor: '#F5F3F3',
     minWidth: window.width - 10,
     margin: 5,
     borderRadius: 20,
@@ -64,8 +65,6 @@ const model = StyleSheet.create({
   profile: {
     width: 130,
     height: 130,
-    borderWidth: 1,
-    borderColor: 'tomato',
     borderRadius: 65,
     margin: 5,
   },

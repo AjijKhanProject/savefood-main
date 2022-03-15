@@ -100,19 +100,45 @@ const Profile = props => {
       },
     );
   };
+
   return (
     <ScrollView>
       <View style={[model.view2]}>
         <View>
           <Image style={model.profile} source={{uri: Profile}} />
-          <TouchableOpacity
-            onPress={() => {
-              SaveImage();
-            }}>
+          {/* <TouchableOpacity onPress={() => SaveImage()}>
             <Icon style={model.bage} name="camera" size={25} color="#FB6127" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            margin: 0,
+            borderRadius: 10,
+            backgroundColor: 'white',
+            padding: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 10,
+          }}
+          onPress={() => SaveImage()}>
+          <Icon
+            style={{
+              marginHorizontal: 10,
+            }}
+            name="camera"
+            size={25}
+            color="#FB6127"
+          />
+          <Text style={{fontSize: 20, marginRight: 8}}>Change Profile</Text>
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
           <TextInput
             editable={EditName}
             style={[
