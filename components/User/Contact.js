@@ -40,7 +40,7 @@ const Contact = () => {
       width: 350,
       height: 350,
       borderRadius: 150 / 2,
-      borderWidth: 1,
+      borderWidth: 0,
       borderColor: isDarkMode ? 'white' : 'white',
       margin: 10,
     },
