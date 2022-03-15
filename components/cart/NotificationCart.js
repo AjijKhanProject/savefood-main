@@ -45,51 +45,55 @@ const NotificationCart = props => {
     }
   }, []);
   return (
-    <View style={model.cartView}>
-      <Avatar.Image
-        style={{
-          margin: 5,
-        }}
-        size={60}
-        source={{
-          uri: data
-            ? data.User.Photo
-            : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
-        }}
-      />
-      <View
-        style={{
-          flex: 3,
-          justifyContent: 'center',
-          padding: 5,
-        }}>
-        <Text style={{fontWeight: 'bold'}}>{data ? data.User.Name : '.'}</Text>
-        <Text>{props.data.Message}</Text>
-        {Admin ? (
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <SmallButton
-              name="Accept"
-              color="green"
-              onPress={() => Alert.alert('ok')}
-            />
-            <SmallButton
-              name="Reject"
-              color="red"
-              onPress={() => Alert.alert('ok')}
-            />
-          </View>
-        ) : (
-          <View></View>
-        )}
+    <>
+      <View style={model.cartView}>
+        <Avatar.Image
+          style={{
+            margin: 5,
+          }}
+          size={60}
+          source={{
+            uri: data
+              ? data.User.Photo
+              : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
+          }}
+        />
+        <View
+          style={{
+            flex: 3,
+            justifyContent: 'center',
+            padding: 5,
+          }}>
+          <Text style={{fontWeight: 'bold'}}>
+            {data ? data.User.Name : '.'}
+          </Text>
+          <Text>{props.data.Message}</Text>
+          {Admin ? (
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <SmallButton
+                name="Accept"
+                color="green"
+                onPress={() => Alert.alert('ok')}
+              />
+              <SmallButton
+                name="Reject"
+                color="red"
+                onPress={() => Alert.alert('ok')}
+              />
+            </View>
+          ) : (
+            <View></View>
+          )}
+        </View>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>{Time}</Text>
+          <Text>{Date}</Text>
+        </View>
       </View>
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <Text>{Time}</Text>
-        <Text>{Date}</Text>
-      </View>
-    </View>
+    </>
   );
 };
 
