@@ -86,8 +86,15 @@ const Contact = () => {
             <Ionicons style={styles.icon} name="ios-location" size={35} />
           </TouchableOpacity>
         </View>
+      </View>
+    </>
+  );
+};
 
-        {/* <TouchableOpacity
+export default Contact;
+
+{
+  /* <TouchableOpacity
           onPress={() => {
             Linking.openURL('tel:+8801742824576');
           }}>
@@ -112,10 +119,5 @@ const Contact = () => {
               House: 33, Block: C, Loharpara, Sylhet, Bangladesh, 3100
             </Text>
           </View>
-        </TouchableOpacity> */}
-      </View>
-    </>
-  );
-};
-
-export default Contact;
+        </TouchableOpacity> */
+}

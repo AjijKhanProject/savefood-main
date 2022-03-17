@@ -6,7 +6,7 @@ const Cart = props => {
   const [Address, setAddress] = React.useState(props.address);
   const [date, setDate] = React.useState(props.data.NewDate.toDate());
   const [Month, setMonth] = React.useState('');
-  const [DonateBy, setDonateBy] = React.useState('Sagor Alamat');
+  const [DonateBy, setDonateBy] = React.useState('Masd Khan');
   const data = props.data;
 
   const window = Dimensions.get('window');

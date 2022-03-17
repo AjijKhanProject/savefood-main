@@ -21,10 +21,10 @@ const App = () => {
     roundness: 2,
     colors: {
       ...DefaultTheme.colors,
-      placeholder: '#DC7633',
-      notification: '#DC7633',
+      placeholder: '#FB6127',
+      notification: '#FB6127',
       text: '#000',
-      primary: '#DC7633',
+      primary: '#FB6127',
     },
     mode: 'exact',
   };
